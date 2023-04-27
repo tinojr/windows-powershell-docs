@@ -36,27 +36,33 @@ Get-ADGroup [-AuthType <ADAuthType>] [-Credential <PSCredential>] -LDAPFilter <S
 ```
 
 ## DESCRIPTION
-The **Get-ADGroup** cmdlet gets a group or performs a search to retrieve multiple groups from an Active Directory.
+The **Get-ADGroup** cmdlet gets a group or performs a search to retrieve multiple groups from an
+Active Directory.
 
-The *Identity* parameter specifies the Active Directory group to get.
-You can identify a group by its distinguished name (DN), GUID, security identifier (SID), or Security Accounts Manager (SAM) account name.
-You can also specify group object variable, such as `$<localGroupObject>`.
+The *Identity* parameter specifies the Active Directory group to get. You can identify a group by
+its distinguished name (DN), GUID, security identifier (SID), or Security Accounts Manager (SAM)
+account name. You can also specify group object variable, such as `$<localGroupObject>`.
 
-To search for and retrieve more than one group, use the *Filter* or *LDAPFilter* parameters.
-The *Filter* parameter uses the PowerShell Expression Language to write query strings for Active Directory.
-PowerShell Expression Language syntax provides rich type conversion support for value types received by the *Filter* parameter.
-For more information about the *Filter* parameter syntax, type `Get-Help about_ActiveDirectory_Filter`.
-If you have existing Lightweight Directory Access Protocol (LDAP) query strings, you can use the *LDAPFilter* parameter.
+To search for and retrieve more than one group, use the *Filter* or *LDAPFilter* parameters. The
+*Filter* parameter uses the PowerShell Expression Language to write query strings for Active
+Directory. PowerShell Expression Language syntax provides rich type conversion support for value
+types received by the *Filter* parameter. For more information about the *Filter* parameter syntax,
+type `Get-Help about_ActiveDirectory_Filter`. If you have existing Lightweight Directory Access
+Protocol (LDAP) query strings, you can use the *LDAPFilter* parameter.
 
-This cmdlet gets a default set of group object properties.
-To get additional properties use the *Properties* parameter.
-For more information about the how to determine the properties for group objects, see the *Properties* parameter description.
+This cmdlet gets a default set of group object properties. To get additional properties use the
+*Properties* parameter. For more information about the how to determine the properties for group
+objects, see the *Properties* parameter description.
 
 ## EXAMPLES
 
 ### Example 1: Get a group by SAM account name
+
+```powershell
+Get-ADGroup -Identity Administrators
 ```
-PS C:\> Get-ADGroup -Identity Administrators
+
+```output
 DistinguishedName : CN=Administrators,CN=Builtin,DC=Fabrikam,DC=com
 GroupCategory     : Security
 GroupScope        : DomainLocal
@@ -70,8 +76,11 @@ SID               : S-1-5-32-544
 This command gets the group with the SAM account name Administrators.
 
 ### Example 2: Get a group by SID
-```
-PS C:\> Get-ADGroup -Identity S-1-5-32-544 -Properties member
+
+```powershell
+Get-ADGroup -Identity S-1-5-32-544 -Properties member
+
+```output
 DistinguishedName : CN=Administrators,CN=Builtin,DC=Fabrikam,DC=com
 GroupCategory     : Security
 GroupScope        : DomainLocal
@@ -87,17 +96,21 @@ SID               : S-1-5-32-544
 This command gets the group with SID S-1-5-32-544 and the property member.
 
 ### Example 3: Get a group and filter the results
-```
-PS C:\> Get-ADGroup -Filter 'GroupCategory -eq "Security" -and GroupScope -ne "DomainLocal"'
+
+```powershell
+Get-ADGroup -Filter 'GroupCategory -eq "Security" -and GroupScope -ne "DomainLocal"'
 ```
 
-This command gets all groups that have a GroupCategory of Security but do not have a GroupScope of DomainLocal.
+This command gets all groups that have a GroupCategory of Security but do not have a GroupScope of
+DomainLocal.
 
 ### Example 4: Get a group from a specified search base and filter the results
+
+```powershell
+Get-ADGroup -Server localhost:60000 -Filter "GroupScope -eq 'DomainLocal'" -SearchBase "DC=AppNC"
 ```
-PS C:\> Get-ADGroup -Server localhost:60000 -Filter "GroupScope -eq 'DomainLocal'" -SearchBase "DC=AppNC"
 
-
+```output
 DistinguishedName : CN=AlphaGroup,OU=AccountDeptOU,DC=AppNC
 GroupCategory     : Security
 GroupScope        : DomainLocal
@@ -152,17 +165,20 @@ Accept wildcard characters: False
 ```
 
 ### -Credential
-Specifies the user account credentials to use to perform this task.
-The default credentials are the credentials of the currently logged on user unless the cmdlet is run from an Active Directory module for Windows PowerShell provider drive.
-If the cmdlet is run from such a provider drive, the account associated with the drive is the default.
+Specifies the user account credentials to use to perform this task. The default credentials are the
+credentials of the currently logged on user unless the cmdlet is run from an Active Directory module
+for Windows PowerShell provider drive. If the cmdlet is run from such a provider drive, the account
+associated with the drive is the default.
 
-To specify this parameter, you can type a user name, such as User1 or Domain01\User01 or you can specify a **PSCredential** object.
-If you specify a user name for this parameter, the cmdlet prompts for a password.
+To specify this parameter, you can type a user name, such as User1 or Domain01\User01 or you can
+specify a **PSCredential** object. If you specify a user name for this parameter, the cmdlet prompts
+for a password.
 
 You can also create a **PSCredential** object by using a script or by using the **Get-Credential** cmdlet.
 You can then set the *Credential* parameter to the **PSCredential** object.
 
-If the acting credentials do not have directory-level permission to perform the task, Active Directory module for Windows PowerShell returns a terminating error.
+If the acting credentials do not have directory-level permission to perform the task, Active
+Directory module for Windows PowerShell returns a terminating error.
 
 ```yaml
 Type: PSCredential
@@ -177,11 +193,11 @@ Accept wildcard characters: False
 ```
 
 ### -Filter
-Specifies a query string that retrieves Active Directory objects.
-This string uses the PowerShell Expression Language syntax.
-The PowerShell Expression Language syntax provides rich type-conversion support for value types received by the *Filter* parameter.
-The syntax uses an in-order representation, which means that the operator is placed between the operand and the value.
-For more information about the *Filter* parameter, type `Get-Help about_ActiveDirectory_Filter`.
+Specifies a query string that retrieves Active Directory objects. This string uses the PowerShell
+Expression Language syntax. The PowerShell Expression Language syntax provides rich type-conversion
+support for value types received by the *Filter* parameter. The syntax uses an in-order
+representation, which means that the operator is placed between the operand and the value. For more
+information about the *Filter* parameter, type `Get-Help about_ActiveDirectory_Filter`.
 
 Syntax:
 
@@ -234,7 +250,8 @@ The acceptable values for this parameter are:
 The cmdlet searches the default naming context or partition to find the object.
 If two or more objects are found, the cmdlet returns a non-terminating error.
 
-This parameter can also get this object through the pipeline or you can set this parameter to an object instance.
+This parameter can also get this object through the pipeline or you can set this parameter to an
+object instance.
 
 ```yaml
 Type: ADGroup
@@ -249,10 +266,10 @@ Accept wildcard characters: False
 ```
 
 ### -LDAPFilter
-Specifies an LDAP query string that is used to filter Active Directory objects.
-You can use this parameter to run your existing LDAP queries.
-The *Filter* parameter syntax supports the same functionality as the LDAP syntax.
-For more information, see the *Filter* parameter description or type `Get-Help about_ActiveDirectory_Filter`.
+Specifies an LDAP query string that is used to filter Active Directory objects. You can use this
+parameter to run your existing LDAP queries. The *Filter* parameter syntax supports the same
+functionality as the LDAP syntax. For more information, see the *Filter* parameter description or
+type `Get-Help about_ActiveDirectory_Filter`.
 
 ```yaml
 Type: String
@@ -271,22 +288,31 @@ Specifies the distinguished name of an Active Directory partition.
 The distinguished name must be one of the naming contexts on the current directory server.
 The cmdlet searches this partition to find the object defined by the *Identity* parameter.
 
-In many cases, a default value is used for the *Partition* parameter if no value is specified.
-The rules for determining the default value are given below.
-Note that rules listed first are evaluated first and once a default value can be determined, no further rules are evaluated.
+In many cases, a default value is used for the *Partition* parameter if no value is specified. The
+rules for determining the default value are given below. Note that rules listed first are evaluated
+first and once a default value can be determined, no further rules are evaluated.
 
-In Active Directory Domain Services (AD DS) environments, a default value for *Partition* is set in the following cases: 
+In Active Directory Domain Services (AD DS) environments, a default value for *Partition* is set in
+the following cases:
 
-- If the *Identity* parameter is set to a distinguished name, the default value of *Partition* is automatically generated from this distinguished name.
-- If running cmdlets from an Active Directory provider drive, the default value of *Partition* is automatically generated from the current path in the drive. 
-- If none of the previous cases apply, the default value of *Partition* is set to the default partition or naming context of the target domain.
+- If the *Identity* parameter is set to a distinguished name, the default value of *Partition* is
+  automatically generated from this distinguished name.
+- If running cmdlets from an Active Directory provider drive, the default value of *Partition* is
+  automatically generated from the current path in the drive.
+- If none of the previous cases apply, the default value of *Partition* is set to the default
+  partition or naming context of the target domain.
 
-In Active Directory Lightweight Directory Services (AD LDS) environments, a default value for *Partition* is set in the following cases:
+In Active Directory Lightweight Directory Services (AD LDS) environments, a default value for
+*Partition* is set in the following cases:
 
-- If the *Identity* parameter is set to a distinguished name, the default value of *Partition* is automatically generated from this distinguished name. 
-- If running cmdlets from an Active Directory provider drive, the default value of *Partition* is automatically generated from the current path in the drive. 
-- If the target AD LDS instance has a default naming context, the default value of *Partition* will be set to the default naming context.
-To specify a default naming context for an AD LDS environment, set the **msDS-defaultNamingContext** property of the Active Directory directory service agent object (**nTDSDSA**) for the AD LDS instance. 
+- If the *Identity* parameter is set to a distinguished name, the default value of *Partition* is
+  automatically generated from this distinguished name.
+- If running cmdlets from an Active Directory provider drive, the default value of *Partition* is
+  automatically generated from the current path in the drive.
+- If the target AD LDS instance has a default naming context, the default value of *Partition* will
+  be set to the default naming context. To specify a default naming context for an AD LDS
+  environment, set the **msDS-defaultNamingContext** property of the Active Directory directory
+  service agent object (**nTDSDSA**) for the AD LDS instance.
 - If none of the previous cases apply, the *Partition* parameter does not take any default value.
 
 ```yaml
@@ -308,10 +334,11 @@ Use this parameter to retrieve properties that are not included in the default s
 Specify properties for this parameter as a comma-separated list of names.
 To display all of the attributes that are set on the object, specify * (asterisk).
 
-To specify an individual extended property, use the name of the property.
-For properties that are not default or extended properties, you must specify the LDAP display name of the attribute.
+To specify an individual extended property, use the name of the property. For properties that are
+not default or extended properties, you must specify the LDAP display name of the attribute.
 
-To retrieve properties and display them for an object, you can use the Get-* cmdlet associated with the object and pass the output to the **Get-Member** cmdlet.
+To retrieve properties and display them for an object, you can use the Get-* cmdlet associated with
+the object and pass the output to the **Get-Member** cmdlet.
 
 ```yaml
 Type: String[]
@@ -364,15 +391,21 @@ Accept wildcard characters: False
 ### -SearchBase
 Specifies an Active Directory path to search under.
 
-When you run a cmdlet from an Active Directory provider drive, the default value of this parameter is the current path of the drive.
+When you run a cmdlet from an Active Directory provider drive, the default value of this parameter
+is the current path of the drive.
 
-When you run a cmdlet outside of an Active Directory provider drive against an AD DS target, the default value of this parameter is the default naming context of the target domain.
+When you run a cmdlet outside of an Active Directory provider drive against an AD DS target, the
+default value of this parameter is the default naming context of the target domain.
 
-When you run a cmdlet outside of an Active Directory provider drive against an AD LDS target, the default value is the default naming context of the target LDS instance if one has been specified by setting the **msDS-defaultNamingContext** property of the Active Directory directory service agent object (**nTDSDSA**) for the AD LDS instance.
-If no default naming context has been specified for the target AD LDS instance, then this parameter has no default value.
+When you run a cmdlet outside of an Active Directory provider drive against an AD LDS target, the
+default value is the default naming context of the target LDS instance if one has been specified by
+setting the **msDS-defaultNamingContext** property of the Active Directory directory service agent
+object (**nTDSDSA**) for the AD LDS instance. If no default naming context has been specified for
+the target AD LDS instance, then this parameter has no default value.
 
-When the value of the *SearchBase* parameter is set to an empty string and you are connected to a GC port, all partitions are searched.
-If the value of the *SearchBase* parameter is set to an empty string and you are not connected to a GC port, an error is thrown.
+When the value of the *SearchBase* parameter is set to an empty string and you are connected to a GC
+port, all partitions are searched. If the value of the *SearchBase* parameter is set to an empty
+string and you are not connected to a GC port, an error is thrown.
 
 ```yaml
 Type: String
@@ -412,8 +445,10 @@ Accept wildcard characters: False
 ```
 
 ### -Server
-Specifies the Active Directory Domain Services instance to connect to, by providing one of the following values for a corresponding domain name or directory server.
-The service may be any of the following: Active Directory Lightweight Domain Services, Active Directory Domain Services or Active Directory Snapshot instance.
+Specifies the Active Directory Domain Services instance to connect to, by providing one of the
+following values for a corresponding domain name or directory server. The service may be any of the
+following: Active Directory Lightweight Domain Services, Active Directory Domain Services or Active
+Directory Snapshot instance.
 
 Specify the Active Directory Domain Services instance in one of the following ways:  
 
@@ -428,10 +463,12 @@ Directory server values:
 - NetBIOS name
 - Fully qualified directory server name and port
 
-The default value for this parameter is determined by one of the following methods in the order that they are listed:
+The default value for this parameter is determined by one of the following methods in the order that
+they are listed:
 
 - By using the *Server* value from objects passed through the pipeline
-- By using the server information associated with the Active Directory Domain Services Windows PowerShell provider drive, when the cmdlet runs in that drive
+- By using the server information associated with the Active Directory Domain Services Windows
+  PowerShell provider drive, when the cmdlet runs in that drive
 - By using the domain of the computer running Windows PowerShell
 
 ```yaml
@@ -462,7 +499,10 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](https://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable,
+-InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose,
+-WarningAction, and -WarningVariable. For more information, see
+[about_CommonParameters](https://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
